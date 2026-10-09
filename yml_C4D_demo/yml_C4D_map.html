@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>SIAS University (Zhengzhou SIAS College) 周边信息地图</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  html,body,#map{height:100%;margin:0;}
+  .legend{position:absolute;z-index:1000;right:10px;top:10px;background:#fff;
+    padding:10px 14px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.25);
+    font:13px/1.7 -apple-system,"Segoe UI",sans-serif;max-width:300px;}
+  .legend b{font-size:15px;}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;}
+  hr{margin:8px 0;border:none;border-top:1px solid #eee;}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div class="legend">
+  <b>SIAS University (Zhengzhou SIAS College) 周边信息地图</b><br>
+  <span id="cnt"></span><br>
+  <small style="color:#888">数据由本地 Gemma 4 模型经函数调用生成</small>
+  <hr><div id="legend-items"></div>
+</div>
+<script>
+const points = [{"name": "SIAS University Main Gate", "name_zh": "西雅斯大学主校门", "lat": 34.39, "lng": 113.73, "description": "The main entrance and central administrative area of SIAS University. (Campus Building)", "category": "校园建筑"}, {"name": "University Library", "name_zh": "大学图书馆", "lat": 34.41, "lng": 113.74, "description": "The main learning resource center, housing extensive academic collections. (Campus Building)", "category": "校园建筑"}, {"name": "East Dormitory", "name_zh": "东侧宿舍楼", "lat": 34.4, "lng": 113.72, "description": "A large residential hall for students. (Dormitory)", "category": "宿舍"}, {"name": "Central Dining Hall", "name_zh": "中心食堂", "lat": 34.4, "lng": 113.73, "description": "The main campus cafeteria providing varied food options for students. (Dining)", "category": "餐饮"}, {"name": "Academic Complex Building", "name_zh": "学术高楼", "lat": 34.385, "lng": 113.75, "description": "The major academic complex housing various faculties and research centers. (Campus Building)", "category": "校园建筑"}, {"name": "Local Commercial Street", "name_zh": "当地商业街", "lat": 34.42, "lng": 113.71, "description": "A popular local eatery or commercial street nearby, approximately 2.15 km from the main gate. (Dining/Local Landmark)", "category": "餐饮"}, {"name": "New Zheng Bus Station", "name_zh": "新郑客运站", "lat": 34.39, "lng": 113.69, "description": "The closest major bus/transport hub to the university, approximately 3.54 km away. (Transportation)", "category": "交通"}, {"name": "West Dormitory Area", "name_zh": "西侧宿舍区", "lat": 34.37, "lng": 113.7, "description": "A residential area located slightly further from the main campus boundary. (Dormitory)", "category": "宿舍"}];
+const palette = {"校园建筑":"#e11d48","宿舍":"#f59e0b","餐饮":"#10b981",
+  "交通":"#3b82f6","地标":"#8b5cf6","休闲":"#14b8a6","其他":"#64748b"};
+const map = L.map('map').setView([34.39562, 113.72125], 14);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+const layer = L.featureGroup();
+const seen = {};
+for (const p of points) {
+  const cat = p.category || '其他';
+  const col = palette[cat] || palette['其他'];
+  seen[cat] = (seen[cat] || 0) + 1;
+  const m = L.circleMarker([p.lat, p.lng],
+    {radius:8, color:col, weight:2, fillColor:col, fillOpacity:0.8});
+  m.bindPopup('<b>' + p.name_zh + '</b> (' + p.name + ')<br>' + p.description +
+    '<br><small>坐标: ' + p.lat.toFixed(4) + ', ' + p.lng.toFixed(4) + '</small>');
+  layer.addLayer(m);
+}
+layer.addTo(map);
+document.getElementById('cnt').textContent = '共 ' + points.length + ' 个标记点';
+let html = '';
+for (const [cat, n] of Object.entries(seen)) {
+  html += '<div><span class="dot" style="background:' + palette[cat] + '"></span>' +
+    cat + ' (' + n + ')</div>';
+}
+document.getElementById('legend-items').innerHTML = html;
+if (points.length) map.fitBounds(layer.getBounds().pad(0.15));
+</script>
+</body>
+</html>
