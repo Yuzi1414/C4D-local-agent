@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>C4D 运行证明</title>
+<style>
+  body{margin:0;background:#0f1117;color:#e6edf3;font:14px/1.6 Consolas,"SFMono-Regular",Menlo,monospace;padding:28px;}
+  h1{font-size:20px;color:#7ee787;margin:0 0 6px;font-family:-apple-system,"Segoe UI",sans-serif;}
+  .sub{color:#8b949e;font-family:-apple-system,"Segoe UI",sans-serif;margin-bottom:18px;}
+  .term{background:#0d1117;border:1px solid #30363d;border-radius:10px;padding:18px 20px;overflow:auto;}
+  pre{margin:0;white-space:pre-wrap;}
+  .k{color:#79c0ff;} .ok{color:#7ee787;} .dim{color:#8b949e;} .warn{color:#d29922;}
+  .chip{display:inline-block;background:#1f6feb22;border:1px solid #1f6feb55;color:#79c0ff;border-radius:6px;padding:2px 10px;margin:3px 6px 3px 0;font-family:-apple-system,"Segoe UI",sans-serif;font-size:13px;}
+</style>
+</head>
+<body>
+<h1>✅ C4D 本地大模型 Agent —— 运行证明</h1>
+<div class="sub">以下内容为真实终端输出（未改动），用于证明 Agent 在本机、由本地模型驱动完成函数调用。</div>
+
+<div>
+  <span class="chip">模型 gemma4:e4b</span>
+  <span class="chip">量化 Q4_K_M</span>
+  <span class="chip">Ollama 0.35.1</span>
+  <span class="chip">RTX 5050 Laptop 4GB VRAM</span>
+  <span class="chip">30.8 tok/s</span>
+</div>
+
+<div class="term"><pre>==================================================================
+C4D 本地大模型 Agent —— 运行证明
+模型: gemma4:e4b    量化: Q4_K_M
+设备: Windows 11 家庭版 / AMD Ryzen 9 8940HX (16C32T) / 15.3GB RAM / NVIDIA RTX 5050 Laptop 4GB VRAM
+服务: http://localhost:11434/v1/chat/completions
+==================================================================
+[step 1] tool get_distance(...) -&gt; 两点直线距离约 7.21 km
+[step 1] tool get_distance(...) -&gt; 两点直线距离约 33.96 km
+[step 1] tool get_distance(...) -&gt; 两点直线距离约 2.15 km
+[step 1] tool get_distance(...) -&gt; 两点直线距离约 3.54 km
+[step 1] tool add_marker(...) -&gt; 已添加 西雅斯大学主校门(SIAS University Main Gate) @ (34.3900, 113.7300)，当前共 1 个地点
+[step 1] tool add_marker(...) -&gt; 已添加 大学图书馆(University Library) @ (34.4100, 113.7400)，当前共 2 个地点
+[step 1] tool add_marker(...) -&gt; 已添加 东侧宿舍楼(East Dormitory) @ (34.4000, 113.7200)，当前共 3 个地点
+[step 1] tool add_marker(...) -&gt; 已添加 中心食堂(Central Dining Hall) @ (34.4000, 113.7300)，当前共 4 个地点
+[step 2] tool add_marker(...) -&gt; 已添加 学术高楼(Academic Complex Building) @ (34.3850, 113.7500)，当前共 5 个地点
+[step 2] tool add_marker(...) -&gt; 已添加 当地商业街(Local Commercial Street) @ (34.4200, 113.7100)，当前共 6 个地点
+[step 2] tool add_marker(...) -&gt; 已添加 新郑客运站(New Zheng Bus Station) @ (34.3900, 113.6900)，当前共 7 个地点
+[step 2] tool add_marker(...) -&gt; 已添加 西侧宿舍区(West Dormitory Area) @ (34.3700, 113.7000)，当前共 8 个地点
+[step 2] tool finalize_map(summary=..., title="SIAS University (Zhengzhou SIAS College) 周边信息地图") -&gt; 已结束，共 8 个地点标记
+[step 3] model: 已结束，共 8 个地点标记。请查阅生成的地图……
+------------------------------------------------------------------
+地点标记数: 8
+工具调用次数: 13
+生成 tokens: 2511
+平均推理速度: 30.8 tok/s
+输出地图: yml_C4D_map.html
+==================================================================
+
+$ ollama --version
+ollama version is 0.35.1
+
+$ ollama list
+NAME            ID              SIZE      MODIFIED
+gemma4:e4b      dc35e8d9c606    6.6 GB    3 minutes ago
+qwen2.5:latest  845dbda0ea48    4.7 GB    5 days ago</pre></div>
+</body>
+</html>
